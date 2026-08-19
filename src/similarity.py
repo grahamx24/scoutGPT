@@ -6,11 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 def find_similar(plyr_index, vectors, n):
     try:
         player_vec = vectors.loc[plyr_index].values.reshape(1, -1)
-        print("vectors shape:", vectors.shape)
-        print("player vector shape:", player_vec.shape)
-        print("feature data shape:", vectors.shape)
         similarities = cosine_similarity(vectors, player_vec).flatten() #cosine_similarity returns a 2D array of results
-        print("similarities shape", similarities.shape)
         results = pd.Series(
             similarities,
             index=vectors.index,
@@ -26,7 +22,7 @@ def find_similar(plyr_index, vectors, n):
 def main():
     outfield_vectors = pd.read_csv("../data/clean/outfield_vectors.csv")
     master_players = pd.read_csv("../data/clean/players.csv")
-    HAALAND_INDEX = 1105
+    HAALAND_INDEX = 236
     #should find the five most similar players to Haaland
     sim_indices = find_similar(HAALAND_INDEX, outfield_vectors, 5)
     player_names = [master_players.loc[index].values[1] for index in sim_indices]
